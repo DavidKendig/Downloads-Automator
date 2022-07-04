@@ -9,12 +9,14 @@ import logging
 
 # ! FILL IN BELOW
 # ? folder to track e.g. Windows: "C:\\Users\\UserName\\Downloads"
-source_dir = ""
-dest_dir_sfx = ""
-dest_dir_music = ""
-dest_dir_video = ""
-dest_dir_image = ""
-dest_dir_documents = ""
+source_dir = "C:\\Users\\SwampDogDev\\Downloads"
+dest_dir_sfx = "C:\\Users\\SwampDogDev\\Downloads\\SFX"
+dest_dir_music = "C:\\Users\\SwampDogDev\\Downloads\\MUSIC"
+dest_dir_video = "C:\\Users\\SwampDogDev\\Downloads\\VIDEO"
+dest_dir_image = "C:\\Users\\SwampDogDev\\Downloads\\IMAGES"
+dest_dir_documents = "C:\\Users\\SwampDogDev\\Downloads\\DOCS"
+dest_dir_software = "C:\\Users\\SwampDogDev\\Downloads\\SOFTWARE"
+dest_dir_ebooks = "C:\\Users\\SwampDogDev\\Downloads\\EBOOKS"
 
 if not path.exists(dest_dir_sfx):
     mkdir(dest_dir_sfx)
@@ -31,21 +33,32 @@ if not path.exists(dest_dir_image):
 if not path.exists(dest_dir_documents):
     mkdir(dest_dir_documents)
 
-if not path.exists(dest_dir_sfx):
-    mkdir(dest_dir_sfx)
+if not path.exists(dest_dir_software):
+    mkdir(dest_dir_software)
+
+if not path.exists(dest_dir_ebooks):
+    mkdir(dest_dir_ebooks)
 
 # ? supported image types
-image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",
-                    ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
+image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png",
+                    ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw",
+                    ".cr2", ".nrw", ".k25", ".bmp", ".dib", ".heif", ".heic",
+                    ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf",
+                    ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps",
+                    ".ico"]
 # ? supported Video types
 video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg",
-                    ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
+                    ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt",
+                    ".flv", ".swf", ".avchd", ".mkv"]
 # ? supported Audio types
 audio_extensions = [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"]
 # ? supported Document types
-document_extensions = [".doc", ".docx", ".odt",
-                       ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
-
+document_extensions = [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt",
+                       ".pptx"]
+# ? supported Software types
+software_extensions = [".msi", ".exe",]
+# ? supported eBook types
+ebook_extensions = [".epub", ".mobi",]
 
 def make_unique(path):
     filename, extension = splitext(path)
@@ -75,7 +88,9 @@ class MoverHandler(FileSystemEventHandler):
                 self.check_audio_files(entry, name)
                 self.check_video_files(entry, name)
                 self.check_image_files(entry, name)
+                self.check_software_files(entry, name)
                 self.check_document_files(entry, name)
+                self.check_ebook_files(entry, name)
 
     def check_audio_files(self, entry, name):  # * Checks all Audio Files
         for audio_extension in audio_extensions:
@@ -105,6 +120,17 @@ class MoverHandler(FileSystemEventHandler):
                 move_file(dest_dir_documents, entry, name)
                 logging.info(f"Moved document file: {name}")
 
+    def check_software_files(self, entry, name):  # * Checks all Software Files
+        for software_extension in software_extensions:
+            if name.endswith(software_extension) or name.endswith(software_extension.upper()):
+                move_file(dest_dir_documents, entry, name)
+                logging.info(f"Moved document file: {name}")
+
+    def check_ebook_files(self, entry, name):  # * Checks all eBook Files
+        for ebook_extension in ebook_extensions:
+            if name.endswith(ebook_extension) or name.endswith(ebook_extension.upper()):
+                move_file(dest_dir_documents, entry, name)
+                logging.info(f"Moved document file: {name}")
 
 # ! NO NEED TO CHANGE BELOW CODE
 if __name__ == "__main__":
