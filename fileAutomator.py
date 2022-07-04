@@ -1,12 +1,11 @@
-from os import scandir, rename
+from os import scandir, rename, mkdir, path
 from os.path import splitext, exists
 from shutil import move
 from time import sleep
-
-import logging
-
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+
+import logging
 
 # ! FILL IN BELOW
 # ? folder to track e.g. Windows: "C:\\Users\\UserName\\Downloads"
@@ -16,6 +15,24 @@ dest_dir_music = ""
 dest_dir_video = ""
 dest_dir_image = ""
 dest_dir_documents = ""
+
+if not path.exists(dest_dir_sfx):
+    mkdir(dest_dir_sfx)
+
+if not path.exists(dest_dir_music):
+    mkdir(dest_dir_music)
+
+if not path.exists(dest_dir_video):
+    mkdir(dest_dir_video)
+
+if not path.exists(dest_dir_image):
+    mkdir(dest_dir_image)
+
+if not path.exists(dest_dir_documents):
+    mkdir(dest_dir_documents)
+
+if not path.exists(dest_dir_sfx):
+    mkdir(dest_dir_sfx)
 
 # ? supported image types
 image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",
